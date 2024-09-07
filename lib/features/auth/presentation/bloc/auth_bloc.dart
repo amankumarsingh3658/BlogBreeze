@@ -1,5 +1,4 @@
 import 'package:blog_app/core/common/cubits/app_user/app_user_cubit.dart';
-import 'package:blog_app/core/error/failures.dart';
 import 'package:blog_app/core/usecase/usecase.dart';
 import 'package:blog_app/core/common/entities/user.dart';
 import 'package:blog_app/features/auth/domain/usecases/current_user.dart';
@@ -56,6 +55,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   void _isUserLoggedIn(
       AuthIsUserLoggedIn event, Emitter<AuthState> emit) async {
     final res = await _currentUser(NoParams());
+    
     res.fold((failure) => emit(AuthFailure(failure.message)),
         (user) => _emitAuthSuccess(user, emit));
   }

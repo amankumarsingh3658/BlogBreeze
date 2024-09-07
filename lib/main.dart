@@ -25,7 +25,6 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     context.read<AuthBloc>().add(AuthIsUserLoggedIn());
   }
