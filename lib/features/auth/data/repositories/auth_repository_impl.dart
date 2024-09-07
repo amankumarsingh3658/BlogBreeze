@@ -2,16 +2,32 @@ import 'package:blog_app/core/error/exceptions.dart';
 import 'package:blog_app/core/error/failures.dart';
 import 'package:blog_app/features/auth/data/datasources/auth_remote_data_source.dart';
 import 'package:blog_app/features/auth/domain/Repository/auth_repository.dart';
-import 'package:blog_app/features/auth/domain/entities/user.dart';
+import 'package:blog_app/core/common/entities/user.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' as sb;
 
 class AuthRepositoryImpl implements AuthRepository {
   final AuthRemoteDataSource remoteDataSource;
   AuthRepositoryImpl(this.remoteDataSource);
+
   @override
-  Future<Either<Failure, User>> loginWithEmailAndPassword(
-      {required String email, required String password}) async {
+  Future<Either<Failure, User>> currentUser() async {
+    try {
+      final user = await remoteDataSource.getCurrentUserData();
+      if (user == null) {
+        return left(Failure('User Not Logged In'));
+      }
+      return right(user);
+    } on ServerException catch (e) {
+      return left(Failure(e.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, User>> loginWithEmailAndPassword({
+    required String email,
+    required String password,
+  }) async {
     return _getUser(() async => await remoteDataSource
         .loginWithEmailAndPassword(email: email, password: password));
   }
@@ -36,8 +52,7 @@ class AuthRepositoryImpl implements AuthRepository {
       return right(user);
     } on sb.AuthException catch (e) {
       return left(Failure(e.toString()));
-    }
-    on ServerException catch (e) {
+    } on ServerException catch (e) {
       return left(Failure(e.message));
     }
   }
