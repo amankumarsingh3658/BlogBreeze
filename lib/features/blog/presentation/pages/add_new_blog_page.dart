@@ -162,8 +162,6 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
                                       } else {
                                         selectedTopics.add(elements);
                                       }
-                                      print(selectedTopics);
-
                                       setState(() {});
                                     },
                                     child: Chip(
