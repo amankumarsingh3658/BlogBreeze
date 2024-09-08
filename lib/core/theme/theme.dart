@@ -10,17 +10,18 @@ class AppTheme {
       ));
   static final darkThemeMode = ThemeData.dark().copyWith(
     chipTheme: ChipThemeData(
-      color: WidgetStatePropertyAll(
-        AppPallete.backgroundColor,
-      ),
-      side: BorderSide.none
-    ),
+        color: WidgetStatePropertyAll(
+          AppPallete.backgroundColor,
+        ),
+        side: BorderSide.none),
     appBarTheme:
         const AppBarTheme(backgroundColor: AppPallete.transparentColor),
     scaffoldBackgroundColor: AppPallete.backgroundColor,
     inputDecorationTheme: InputDecorationTheme(
+        border: _border(),
         contentPadding: const EdgeInsets.all(27),
         enabledBorder: _border(),
+        errorBorder: _border(AppPallete.errorColor),
         focusedBorder: _border(AppPallete.gradient2)),
   );
 }
