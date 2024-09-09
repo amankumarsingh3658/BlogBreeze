@@ -18,6 +18,4 @@ class Blog {
     required this.updatedAt,
     this.posterName
   });
-
-
 }
