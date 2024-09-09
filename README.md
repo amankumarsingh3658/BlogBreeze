@@ -2,7 +2,7 @@ Here’s a GitHub description for your **Blog App** based on the structure of th
 
 ---
 
-### Blog App - Flutter, Supabase, Hive, Bloc
+### Blog Breeze - Flutter, Supabase, Hive, Bloc
 
 **Project Description**:
 
@@ -41,7 +41,3 @@ Successfully developed a robust blog app with seamless real-time blog posting, o
 **Additional Information**:
 
 - **Version Control**: Utilized Git for version control and hosted the project on GitHub, ensuring streamlined collaboration and code management.
-
----
-
-This description provides a comprehensive overview of your **Blog App**, focusing on both the user experience and the technical implementation.
