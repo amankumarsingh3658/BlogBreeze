@@ -3,6 +3,7 @@ import 'package:blog_app/features/blog/domain/entities/blog.dart';
 class BlogModel extends Blog {
   BlogModel(
       {required super.id,
+      super.posterName,
       required super.posterId,
       required super.title,
       required super.content,
@@ -35,7 +36,8 @@ class BlogModel extends Blog {
           : DateTime.parse(map['updated_at']),
     );
   }
-    BlogModel copyWith({
+  BlogModel copyWith({
+    String? posterName,
     String? id,
     String? posterId,
     String? title,
@@ -45,6 +47,7 @@ class BlogModel extends Blog {
     DateTime? updatedAt,
   }) {
     return BlogModel(
+        posterName: posterName ?? this.posterName,
         id: id ?? this.id,
         posterId: posterId ?? this.posterId,
         title: title ?? this.title,

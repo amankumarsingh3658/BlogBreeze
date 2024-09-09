@@ -1,4 +1,5 @@
 class Blog {
+  final String? posterName;
   final String id;
   final String posterId;
   final String title;
@@ -15,6 +16,7 @@ class Blog {
     required this.imageUrl,
     required this.topics,
     required this.updatedAt,
+    this.posterName
   });
 
 
