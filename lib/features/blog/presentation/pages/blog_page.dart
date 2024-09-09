@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class BlogPage extends StatefulWidget {
-  static route()=> MaterialPageRoute(builder: (context)=>BlogPage());
+  static route() => MaterialPageRoute(builder: (context) => BlogPage());
   const BlogPage({super.key});
 
   @override
@@ -23,6 +23,7 @@ class _BlogPageState extends State<BlogPage> {
     super.initState();
     context.read<BlogBloc>().add(BlogFetchAllBlog());
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,13 +48,19 @@ class _BlogPageState extends State<BlogPage> {
             return Loader();
           }
           if (state is BlogsDisplaySuccess) {
-            
-          return ListView.builder(
-              itemCount: state.blogs.length,
-              itemBuilder: (context , index){
-                final blog = state.blogs[index];
-                return BlogCard(blog: blog,color: AppPallete.gradient1,);
-            });
+            return ListView.builder(
+                itemCount: state.blogs.length,
+                itemBuilder: (context, index) {
+                  final blog = state.blogs[index];
+                  return BlogCard(
+                    blog: blog,
+                    color: index % 3 == 0
+                        ? AppPallete.gradient1
+                        : index % 3 == 1
+                            ? AppPallete.gradient2
+                            : AppPallete.gradient3,
+                  );
+                });
           }
           return SizedBox();
         },

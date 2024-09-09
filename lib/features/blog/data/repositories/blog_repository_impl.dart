@@ -1,6 +1,8 @@
 import 'dart:io';
+import 'package:blog_app/core/Network/connection_checker.dart';
 import 'package:blog_app/core/error/exceptions.dart';
 import 'package:blog_app/core/error/failures.dart';
+import 'package:blog_app/features/blog/data/datasources/blog_local_datasource.dart';
 import 'package:blog_app/features/blog/data/datasources/blog_remote_data_source.dart';
 import 'package:blog_app/features/blog/data/models/blog_model.dart';
 import 'package:blog_app/features/blog/domain/entities/blog.dart';
@@ -10,7 +12,13 @@ import 'package:uuid/uuid.dart';
 
 class BlogRepositoryImpl implements BlogRepository {
   final BlogRemoteDataSource blogRemoteDataSource;
-  BlogRepositoryImpl(this.blogRemoteDataSource);
+  final BlogLocalDataSource blogLocalDataSource;
+  final ConnectionChecker connectionChecker;
+  BlogRepositoryImpl(
+    this.blogRemoteDataSource,
+    this.blogLocalDataSource,
+    this.connectionChecker,
+  );
   @override
   Future<Either<Failure, Blog>> uploadBlog({
     required File image,
@@ -19,6 +27,9 @@ class BlogRepositoryImpl implements BlogRepository {
     required String posterId,
     required List<String> topics,
   }) async {
+    if (!await (connectionChecker.isConnected)) {
+      return left(Failure('No Internet Connection'));
+    }
     try {
       BlogModel blogModel = BlogModel(
           id: Uuid().v1(),
@@ -40,13 +51,18 @@ class BlogRepositoryImpl implements BlogRepository {
       return left(Failure(e.message));
     }
   }
-  
+
   @override
-  Future<Either<Failure, List<Blog>>> getAllBlogs()async{
+  Future<Either<Failure, List<Blog>>> getAllBlogs() async {
     try {
+      if (!await (connectionChecker.isConnected)) {
+        final blogs = blogLocalDataSource.loadBlogs();
+        return right(blogs);
+      }
       final blogs = await blogRemoteDataSource.getAllBlogs();
+      blogLocalDataSource.uploadLocalBlogs(blogs: blogs);
       return right(blogs);
-    }on ServerException catch (e) {
+    } on ServerException catch (e) {
       return left(Failure(e.message.toString()));
     }
   }

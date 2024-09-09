@@ -43,10 +43,10 @@ class _MyAppState extends State<MyApp> {
           return state is AppUserLoggedIn;
         },
         builder: (context, state) {
-          if (state) {
-            return BlogPage();
+          if (!state) {
+            return LoginPage();
           }
-          return const LoginPage();
+          return const BlogPage();
         },
       ),
     );
