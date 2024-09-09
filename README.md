@@ -1,6 +1,4 @@
-Here’s a GitHub description for your **Blog App** based on the structure of the social media app description:
 
----
 
 ### Blog Breeze - Flutter, Supabase, Hive, Bloc
 
